@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
-    chars : [chatSchema],
+    chats : [chatSchema],
 
 });
 
