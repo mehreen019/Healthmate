@@ -1,7 +1,0 @@
-numpy
-nltk
-spacy
-joblib
-pandas
-Flask
-scikit_learn
