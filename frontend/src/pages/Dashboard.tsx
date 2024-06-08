@@ -55,36 +55,38 @@ const Dashboard = () => {
         {storedData && (
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h5">Today's personal health dashboard</Typography>
+              <Typography variant="h2" sx={{
+                padding :"60px", my : "auto", mx:"auto",
+              }}>Today's Personal Health Dashboard</Typography>
             </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="space-between" p={2} border="1px solid #ccc" borderRadius="5px">
-                <Typography>Pulse Rate:</Typography>
-                <Typography>{storedData.pulseRate}</Typography>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffcccb" borderRadius="10px" border="1px solid #ff0000">
+                <Typography  sx={{color:"black"}}>Pulse Rate</Typography>
+                <Typography sx={{color:"black"}}>{storedData.pulseRate}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="space-between" p={2} border="1px solid #ccc" borderRadius="5px">
-                <Typography>Temperature:</Typography>
-                <Typography>{storedData.temperature}</Typography>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#add8e6" borderRadius="10px" border="1px solid #0000ff">
+                <Typography sx={{color:"black"}}>Temperature</Typography>
+                <Typography sx={{color:"black"}}>{storedData.temperature}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="space-between" p={2} border="1px solid #ccc" borderRadius="5px">
-                <Typography>Blood Pressure:</Typography>
-                <Typography>{storedData.bloodPressure}</Typography>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#90ee90" borderRadius="10px" border="1px solid #008000">
+                <Typography sx={{color:"black"}}>Blood Pressure</Typography>
+                <Typography sx={{color:"black"}}>{storedData.bloodPressure}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="space-between" p={2} border="1px solid #ccc" borderRadius="5px">
-                <Typography>Weight:</Typography>
-                <Typography>{storedData.weight}</Typography>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#f5f5dc" borderRadius="10px" border="1px solid #d2b48c">
+                <Typography sx={{color:"black"}}>Weight</Typography>
+                <Typography sx={{color:"black"}}>{storedData.weight}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
-              <Box display="flex" justifyContent="space-between" p={2} border="1px solid #ccc" borderRadius="5px">
-                <Typography>Age:</Typography>
-                <Typography>{storedData.age}</Typography>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{color:"black"}}>Age</Typography>
+                <Typography sx={{color:"black"}}>{storedData.age}</Typography>
               </Box>
             </Grid>
           </Grid>
