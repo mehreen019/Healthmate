@@ -16,16 +16,16 @@ interface DashboardData {
 const Dashboard = () => {
   const [storedData, setStoredData] = useState<DashboardData | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<DashboardData>('/user/dashboard-data');
-        setStoredData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<DashboardData>('/user/dashboard-data');
+      setStoredData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -40,10 +40,9 @@ const Dashboard = () => {
 
     try {
       toast.loading('Saving Data', { id: 'dashboard' });
-      const response = await axios.post<DashboardData>('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age });
+      await axios.post('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age });
       toast.success('Data Saved Successfully', { id: 'dashboard' });
-      setStoredData(response.data);
-      console.log('Data saved:', response.data);
+      fetchData();  // Fetch updated data after save
     } catch (error) {
       console.error('Error saving data:', error);
       toast.error('Failed to Save Data', { id: 'dashboard' });
