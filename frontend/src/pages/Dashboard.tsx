@@ -51,13 +51,20 @@ const Dashboard = () => {
 
   return (
     <Box width="90%" height="100vh" display="flex" justifyContent="space-between" alignItems="center" p={3}>
-      <Box flex={1} marginTop="-170px" marginLeft="20px" >
+      <Box flex={1} marginTop="-270px" marginLeft="20px">
         {storedData && (
-          <Grid container spacing={2}>
+          <Grid container spacing={2}
+          sx={{
+            marginLeft:"10px"
+          }}>
             <Grid item xs={12}>
-              <Typography variant="h2" sx={{
+              <Typography variant="h3" sx={{
                 padding :"30px", 
-                marginTop :"-50px"
+                marginTop :"-10px",
+                marginBottom : "50px",
+                marginLeft : "0px",
+                fontSize:"50px",
+                fontWeight:"500",
               }}>Today's Personal Health Dashboard</Typography>
             </Grid>
             <Grid item xs={4}>
@@ -95,7 +102,7 @@ const Dashboard = () => {
       </Box>
       <Box justifyContent="flex-end" alignItems="flex-end" width="300px" padding="30px" boxShadow="10px 10px 20px #000" borderRadius="10px" border="none" marginTop="-50px">
         <form onSubmit={handleSubmit}>
-          <Typography variant="h4" textAlign="center" fontWeight={200} mb={2}>
+          <Typography variant="h4" alignItems="center" textAlign="center" fontWeight={300} mb={2}>
             Input Vitals
           </Typography>
           <CustomizedInput type="text" name="pulseRate" label="Pulse Rate" />
