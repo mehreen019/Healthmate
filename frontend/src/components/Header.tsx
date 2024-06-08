@@ -19,6 +19,7 @@ const Header = () => {
         { auth?.isLoggedIn ? 
           (
             <>
+            <NavigationLink bg="#51538f" textColor="white" to="/dashboard" text="Dashboard" />
             <NavigationLink bg="#00fffc"
             to="/chat"
             text="Go To Chat"
