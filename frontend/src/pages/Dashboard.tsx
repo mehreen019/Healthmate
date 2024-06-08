@@ -51,7 +51,7 @@ const Dashboard = () => {
 
   return (
     <Box width="90%" height="100vh" display="flex" justifyContent="space-between" alignItems="center" p={3}>
-      <Box flex={1} marginTop="-150px" marginLeft="20px" >
+      <Box flex={1} marginTop="-170px" marginLeft="20px" >
         {storedData && (
           <Grid container spacing={2}>
             <Grid item xs={12}>
