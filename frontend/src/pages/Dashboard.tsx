@@ -1,100 +1,92 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, TextField } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
+import { IoIosLogIn } from 'react-icons/io';
 import axios from 'axios';
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
+import CustomizedInput from '../components/shared/CustomizedInput';
 
 const Dashboard = () => {
-  const [pulseRate, setPulseRate] = useState('');
-  const [age, setAge] = useState('');
-  const [temperature, setTemperature] = useState('');
-  const [weight, setWeight] = useState('');
-  const [bloodPressure, setBloodPressure] = useState('');
+  
 
-  const handleSave = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const pulseRate = formData.get("pulseRate") as string;
+    const temperature = formData.get("temperature") as string;
+    const bloodPressure = formData.get("bloodPressure") as string;
+    const weight = formData.get("weight") as string;
+    const age = formData.get("age") as string;
+
     try {
-      const response = await axios.post('/user/save-dashboard', {
-        pulseRate,
-        age,
-        temperature,
-        weight,
-        bloodPressure,
-      });
-      
+      toast.loading('Saving Data', { id: 'dashboard' });
+      const response = await axios.post('/user/save-dashboard',{ pulseRate, temperature, bloodPressure, weight, age});
+      toast.success('Data Saved Successfully', { id: 'dashboard' });
       console.log('Data saved:', response.data);
-      toast.loading("Saved succesfully");
-      setTimeout(() => {
-        toast.dismiss();
-      }, 3000);
-      
     } catch (error) {
       console.error('Error saving data:', error);
-      toast.loading("Error saving data");
-      setTimeout(() => {
-        toast.dismiss();
-      }, 3000);
-      // Optionally, show an error message to the user
+      toast.error('Failed to Save Data', { id: 'dashboard' });
     }
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      padding={2}
-    >
-      <Typography variant="h4" textAlign="center" fontWeight={600} mb={2}>
-        Dashboard
-      </Typography>
-      <TextField
-        label="Pulse Rate"
-        value={pulseRate}
-        onChange={(e) => setPulseRate(e.target.value)}
-        variant="outlined"
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Age"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        variant="outlined"
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Temperature"
-        value={temperature}
-        onChange={(e) => setTemperature(e.target.value)}
-        variant="outlined"
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Weight"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
-        variant="outlined"
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Blood Pressure"
-        value={bloodPressure}
-        onChange={(e) => setBloodPressure(e.target.value)}
-        variant="outlined"
-        fullWidth
-        margin="normal"
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSave}
-        sx={{ mt: 2 }}
-      >
-        Save
-      </Button>
+    <Box width="100%" height="100%" display="flex" justifyContent="center" alignItems="center">
+      <form onSubmit={handleSubmit}>
+        <Box
+          width="400px"
+          padding="30px"
+          boxShadow="10px 10px 20px #000"
+          borderRadius="10px"
+          border="none"
+        >
+          <Typography variant="h4" textAlign="center" fontWeight={600} mb={2}>
+            Dashboard
+          </Typography>
+          <CustomizedInput
+            type="text"
+            name="pulseRate"
+            label="Pulse Rate"
+           // value={formData.pulseRate}
+            //onChange={(e) => handleChange('pulseRate', e.target.value)}
+          />
+          <CustomizedInput
+            type="text"
+            name="age"
+            label="Age"
+           // value={formData.age}
+            //onChange={(e) => handleChange('age', e.target.value)}
+          />
+          <CustomizedInput
+            type="text"
+            name="temperature"
+            label="Temperature"
+            //value={formData.temperature}
+            //onChange={(e) => handleChange('temperature', e.target.value)}
+          />
+          <CustomizedInput
+            type="text"
+            name="weight"
+            label="Weight"
+           // value={formData.weight}
+            //onChange={(e) => handleChange('weight', e.target.value)}
+          />
+          <CustomizedInput
+            type="text"
+            name="bloodPressure"
+            label="Blood Pressure"
+           // value={formData.bloodPressure}
+            //onChange={(e) => handleChange('bloodPressure', e.target.value)}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            endIcon={<IoIosLogIn />}
+          >
+            Save
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 };
