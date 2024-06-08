@@ -11,7 +11,9 @@ type LinkProp = {                   //helpful data for link in one object
 
 const NavigationLink = ( prop :LinkProp) => {
   return (
-    <Link className="nav-link" to={prop.to} style={{ background: prop.bg, color:prop.textColor }}>
+    <Link
+     onClick={prop.onClick}
+     className="nav-link" to={prop.to} style={{ background: prop.bg, color:prop.textColor }}>
        { prop.text }
     </Link>
   )

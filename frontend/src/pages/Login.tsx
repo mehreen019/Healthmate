@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Typography, Button } from '@mui/material'
 import CustomizedInput from '../components/shared/CustomizedInput'
 import { IoIosLogIn } from 'react-icons/io'
 import {toast } from 'react-hot-toast';
 import {useAuth} from '../context/AuthContext';
+import { useNavigate} from 'react-router-dom';
 const Login = () => {
+  const navigate = useNavigate();
   const auth = useAuth();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
@@ -24,7 +26,13 @@ const Login = () => {
 
     console.log(email + " and " + password);
   }
+    useEffect(()=>{
+      if(auth?.user)
+        {
+          return navigate("/chat");
+        }
 
+    },[auth]);
   return (
       <Box
         display={"flex"}
@@ -49,7 +57,7 @@ const Login = () => {
               padding={2}
               fontWeight={600}
             >
-              Login
+            Login
             </Typography>
             <CustomizedInput type="email" name="email" label="Email" />
             <CustomizedInput type="password" name="password" label="Password" />
