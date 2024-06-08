@@ -5,13 +5,21 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import CustomizedInput from '../components/shared/CustomizedInput';
 
+interface DashboardData {
+  pulseRate: string;
+  temperature: string;
+  bloodPressure: string;
+  weight: string;
+  age: string;
+}
+
 const Dashboard = () => {
-  const [storedData, setStoredData] = useState(null);
+  const [storedData, setStoredData] = useState<DashboardData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/user/dashboard-data');
+        const response = await axios.get<DashboardData>('/user/dashboard-data');
         setStoredData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -21,18 +29,18 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>  {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const pulseRate = formData.get("pulseRate");
-    const temperature = formData.get("temperature");
-    const bloodPressure = formData.get("bloodPressure");
-    const weight = formData.get("weight");
-    const age = formData.get("age");
+    const pulseRate = formData.get("pulseRate") as string;
+    const temperature = formData.get("temperature") as string;
+    const bloodPressure = formData.get("bloodPressure") as string;
+    const weight = formData.get("weight") as string;
+    const age = formData.get("age") as string;
 
     try {
       toast.loading('Saving Data', { id: 'dashboard' });
-      const response = await axios.post('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age });
+      const response = await axios.post<DashboardData>('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age });
       toast.success('Data Saved Successfully', { id: 'dashboard' });
       setStoredData(response.data);
       console.log('Data saved:', response.data);
