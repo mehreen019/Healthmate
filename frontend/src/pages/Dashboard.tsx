@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, TextField } from '@mui/material';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Dashboard = () => {
   const [pulseRate, setPulseRate] = useState('');
@@ -18,10 +19,19 @@ const Dashboard = () => {
         weight,
         bloodPressure,
       });
+      
       console.log('Data saved:', response.data);
-      // Optionally, show a success message to the user
+      toast.loading("Saved succesfully");
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3000);
+      
     } catch (error) {
       console.error('Error saving data:', error);
+      toast.loading("Error saving data");
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3000);
       // Optionally, show an error message to the user
     }
   };
