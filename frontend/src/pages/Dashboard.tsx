@@ -62,32 +62,32 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffcccb" borderRadius="10px" border="1px solid #ff0000">
-                <Typography  sx={{color:"black"}}>Pulse Rate</Typography>
-                <Typography sx={{color:"black"}}>{storedData.pulseRate}</Typography>
+                <Typography  sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>Pulse Rate</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>{storedData.pulseRate}</Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#add8e6" borderRadius="10px" border="1px solid #0000ff">
-                <Typography sx={{color:"black"}}>Temperature</Typography>
-                <Typography sx={{color:"black"}}>{storedData.temperature}</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>Temperature</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>{storedData.temperature}</Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#90ee90" borderRadius="10px" border="1px solid #008000">
-                <Typography sx={{color:"black"}}>Blood Pressure</Typography>
-                <Typography sx={{color:"black"}}>{storedData.bloodPressure}</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>Blood Pressure</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>{storedData.bloodPressure}</Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#f5f5dc" borderRadius="10px" border="1px solid #d2b48c">
-                <Typography sx={{color:"black"}}>Weight</Typography>
-                <Typography sx={{color:"black"}}>{storedData.weight}</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>Weight</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>{storedData.weight}</Typography>
               </Box>
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
-                <Typography sx={{color:"black"}}>Age</Typography>
-                <Typography sx={{color:"black"}}>{storedData.age}</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>Age</Typography>
+                <Typography sx={{color:"black", fontWeight : "600", fontSize : "20px"}}>{storedData.age}</Typography>
               </Box>
             </Grid>
           </Grid>
