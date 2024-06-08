@@ -120,3 +120,39 @@ export const verifyUser = async (
       return res.status(200).json({ message: "ERROR", cause: error.message });
     }
   };
+
+
+export const saveDashboardData = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { pulseRate, age, temperature, weight, bloodPressure } = req.body;
+
+    try {
+        // Retrieve user ID from JWT payload
+        const suser = await User.findById(res.locals.jwtData.id);
+        const userId = res.locals.jwtData.id;
+        if (!userId) {
+            return res.status(401).json({ error: 'User ID not found' });
+        }
+
+        // Find the user by ID and update the dashboard field
+        const user = await User.findByIdAndUpdate(
+            userId,
+            {
+                dashboard: { pulseRate, age, temperature, weight, bloodPressure }
+            },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error('Error saving dashboard data:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};

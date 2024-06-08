@@ -16,6 +16,24 @@ const chatSchema = new mongoose.Schema({
         required : true,
     },
 });
+
+const dashboardSchema = new mongoose.Schema({
+    pulseRate: {
+      type: String,
+    },
+    age: {
+      type: String,
+    },
+    temperature: {
+      type: String,
+    },
+    weight: {
+      type: String,
+    },
+    bloodPressure: {
+      type: String,
+    },
+  });
 const userSchema = new mongoose.Schema({
     name : {
         type: String,
@@ -31,6 +49,7 @@ const userSchema = new mongoose.Schema({
         required : true,
     },
     chats : [chatSchema],
+    dashboard: dashboardSchema,
 
 });
 
