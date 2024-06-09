@@ -131,5 +131,4 @@ const Dashboard = () => {
     </Box>
   );
 };
-
 export default Dashboard;
