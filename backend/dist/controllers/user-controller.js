@@ -135,6 +135,8 @@ export const getDashboardData = async (req, res) => {
     catch (error) {
         console.error("Error fetching dashboard data:", error);
         res.status(500).json({ message: "Internal server error" });
+    }
+};
 export const userLogout = async (req, res, next) => {
     try {
         //user token check
