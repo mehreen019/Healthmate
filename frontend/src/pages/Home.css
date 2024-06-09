@@ -5,7 +5,9 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #091a38, #1d3257);
+    /*background: linear-gradient(to right, #091a38, #1d3257);*/
+    background-color:  #0b132c;
+    background-image: 'bg.jpg';
     color: white;
     font-family: 'Arial', sans-serif;
     padding: 20px;
@@ -26,22 +28,26 @@
   .description {
     font-size: 1.2rem;
     max-width: 600px;
+    padding-bottom: 50px;
   }
   
   .images-container {
     display: flex;
+    padding: 20px;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+   
   }
   
   .image {
     width: 150px;
     height: 150px;
-    margin: 0 10px;
+    margin: 20px 20px;
     border-radius: 10px;
     background-color: #7b739e;
     padding: 10px;
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .image2 {

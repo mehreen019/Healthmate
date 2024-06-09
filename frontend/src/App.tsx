@@ -3,6 +3,7 @@ import Chat from "./pages/Chat";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Appointment from "./pages/Appointment";
 import Header from "./components/Header";
 import NotFound from "./pages/NotFound";
 import { Route, Routes } from "react-router-dom";
@@ -24,6 +25,7 @@ function App() {
         )}
         <Route path="*" element={<NotFound/>}/>
         <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/appointment" element={<Appointment />} />
       </Routes>
     </main>
   )
