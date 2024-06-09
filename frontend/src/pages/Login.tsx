@@ -34,7 +34,7 @@ const Login = () => {
     useEffect(()=>{
       if(auth?.user)
         {
-          return navigate("/chat");
+          return navigate("/dashboard");
         }
 
     },[auth]);
