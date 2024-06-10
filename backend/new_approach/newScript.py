@@ -105,27 +105,30 @@ def predict_disease(passage, symptom_list):
     symp_list = []
     resulting=[]
     #symp_list = symptom_list
-    print("original symptoms: ", symptom_list)
     count=10
     
     for symptom in symptom_list:
         arr = symptom
         arr = arr.split(" ")
-        print(arr)
+        if(len(arr)==1): symp_list.append(symptom)
         for i in range(len(arr)):
             dem=arr[i]
+            dem2=arr[i]
             for j in range(i+1, len(arr)):
-                dem+=" "+ arr[j]
+                dem+="_"+ arr[j]
+                dem2+=" "+arr[j]
                 if dem in symptoms:
                     symp_list.append(dem)
+                if dem2 in symptoms:
+                    symp_list.append(dem2)
                 
     
-    
+    """
     for olds in symptom_list:
         if olds not in symp_list:
             symp_list.append(olds)
-            
-    print("hopefully new symptom list ", symp_list)
+    """
+        
     
     for symptom in symp_list:
         if symptom in symptoms:
@@ -133,7 +136,6 @@ def predict_disease(passage, symptom_list):
             resulting.append(symptom)
             features[index] = 1
             
-    print("resulting symptoms", resulting)
     
     # Make prediction using the model
     proba = model.predict_proba([features])
@@ -173,8 +175,7 @@ def predict_disease(passage, symptom_list):
 
 if __name__ == "__main__":
     for line in sys.stdin:
-        data = line.strip()
-        
+        data = json.loads(line.strip())
         """
         print({
             'disease': "",
@@ -189,18 +190,15 @@ if __name__ == "__main__":
         print(response)
         sys.stdout.flush()
         """
-        
-        prep_data = data.split(" ")
+        prep_data = data[0].split(" ")
         for word in prep_data:
             word.lower().replace(',', '').replace(' ', '').replace('.','').replace(':','').replace('-','')
         
 
-        newdata=data.lower()
-        print(newdata)
+        newdata=data[0].lower()
 
         r=Rake()
         r.extract_keywords_from_text(newdata)
-        print(r.get_ranked_phrases_with_scores())
 
         extracted_symptoms=[]
 

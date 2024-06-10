@@ -172,8 +172,8 @@ const Chat = () => {
 
         {chatMessages.map((chat,index)=>
         // @ts-ignore
-        //<ChatItem content={chat.content} role ={chat.role} key={index}/>
-        <ChatItem content={"ok response"} role ={chat.role} key={index}/>
+        <ChatItem content={chat.content} role ={chat.role} key={index}/>
+        //<ChatItem content={"ok response"} role ={chat.role} key={index}/>
       )}
 
       </Box>

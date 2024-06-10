@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import { configureOpenAI } from "../config/openai-config.js";
 import { OpenAIApi, ChatCompletionRequestMessage } from "openai";
 import { spawn } from 'child_process';
+
 export const generateChatCompletion = async (
   req: Request,
   res: Response,
@@ -54,7 +55,7 @@ export const generateChatCompletion = async (
 
     const pythonProcess = spawn('python', ['new_approach/newScript.py']);
 
-    pythonProcess.stdin.write(message + '\n');
+    pythonProcess.stdin.write(JSON.stringify([message]) + '\n');
     pythonProcess.stdin.end();
 
     let pythonOutput = '';
