@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid } from '@mui/material';
 import { IoIosLogIn } from 'react-icons/io';
+import { FaHeartbeat, FaThermometerHalf, FaTint, FaWeight, FaUser } from 'react-icons/fa';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import CustomizedInput from '../components/shared/CustomizedInput';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
@@ -78,31 +81,30 @@ const Dashboard = () => {
   const [storedData, setStoredData] = useState<DashboardData | null>(null);
   const [quote, setQuote] = useState<string>('');
 
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<DashboardData>('/user/dashboard-data');
+      console.log(response)
+      setStoredData(response.data);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (!auth?.user) {
       return navigate("/login");
+
+    } else {
+      const randomIndex = Math.floor(Math.random() * healthAdviceQuotes.length);
+      setQuote(healthAdviceQuotes[randomIndex]);
     }
-
-    // Simulate fetching data
-    const simulatedData: DashboardData = {
-      pulseRate: "eg: 72 bpm",
-      temperature: "eg: 98.6 °F",
-      bloodPressure: "eg: 120/80 mmHg",
-      weight: "eg: 150 lbs",
-      age: "eg: 25",
-      pregnancies: "eg: 0",
-      glucose : "eg: 70 mg/dL",
-      skinThickness: "eg: 2mm",
-      insulin : "eg: 5-12 mIU/L",
-      BMI : "eg: 23",
-      diabetesPedigree : "eg: 1.42"
-
-    };
-    setStoredData(simulatedData);
-
-    // Fetch a random quote from the static array
-    const randomIndex = Math.floor(Math.random() * healthAdviceQuotes.length);
-    setQuote(healthAdviceQuotes[randomIndex]);
   }, [auth, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -122,28 +124,31 @@ const Dashboard = () => {
 
 
     // Simulate saving data
-    const updatedData: DashboardData = { pulseRate, temperature, bloodPressure, weight, age, pregnancies, glucose, skinThickness, insulin,
-      BMI, diabetesPedigree   };
-    setStoredData(updatedData);
-
-    const wholeResponse = await sendHealthData(storedData);
-    console.log(wholeResponse)
-
+    try {
+      toast.loading('Saving Data', { id: 'dashboard' });
+      await axios.post('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age, pregnancies, glucose, skinThickness, insulin, 
+        BMI, diabetesPedigree
+       });
+      toast.success('Data Saved Successfully', { id: 'dashboard' });
+      fetchData();
+    } catch (error) {
+      console.error('Error saving data:', error);
+      toast.error('Failed to Save Data', { id: 'dashboard' });
+    }
   };
 
   return (
     <Box width="90%" display="flex" justifyContent="space-between" alignItems="center" p={3}>
       <Box flex={1} marginTop="-270px" marginLeft="20px">
         {storedData && (
-          <Grid container spacing={2} sx={{ marginLeft: "10px" }}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h3" sx={{
                 padding: "30px",
-                marginTop: "-10px",
-                marginBottom: "50px",
-                marginLeft: "0px",
-                fontSize: "50px",
+                marginTop:"300px",
+                fontSize: { xs: "30px", md: "50px" },
                 fontWeight: "500",
+                textAlign: { xs: 'center', md: 'left' }
               }}>Today's Personal Health Dashboard</Typography>
             </Grid>
             <Grid item xs={4}>
@@ -213,10 +218,10 @@ const Dashboard = () => {
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h4" sx={{ padding: "30px", marginTop: "20px" }}>
+              <Typography variant="h4" sx={{ padding: "30px", mt: "20px", textAlign: 'center' }}>
                 Today's Health Tip
               </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center" width="90%" height="100px" bgcolor="#e0f7fa" borderRadius="10px" border="1px solid #00bcd4">
+              <Box display="flex" justifyContent="center" alignItems="center" width="100%" height="100px" bgcolor="#e0f7fa" borderRadius="10px" border="1px solid #00bcd4" marginBottom= "50px">
                 <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>
                   {quote}
                 </Typography>
@@ -225,7 +230,7 @@ const Dashboard = () => {
           </Grid>
         )}
       </Box>
-      <Box justifyContent="flex-end" alignItems="flex-end" width="300px" padding="30px" boxShadow="10px 10px 20px #000" borderRadius="10px" border="none" marginTop="-50px">
+      <Box width={{ xs: '100%', md: '280px' }} marginLeft="40px" marginRight="20px" padding="20px" boxShadow="10px 10px 20px #000" borderRadius="10px" border="none" mt={{ xs: '20px', md: '-50px' }}>
         <form onSubmit={handleSubmit}>
           <Typography variant="h4" alignItems="center" textAlign="center" fontWeight={300} mb={2}>
             Input Vitals

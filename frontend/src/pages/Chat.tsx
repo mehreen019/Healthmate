@@ -3,6 +3,7 @@ import {Box, Avatar,Typography, Button, IconButton } from '@mui/material';
 import {useAuth} from "../context/AuthContext";
 import red from "@mui/material/colors/red";
 import ChatItem from '../components/chat/ChatItem';
+import axios from 'axios';
 import { IoMdSend } from 'react-icons/io';
 import { deleteUserChats, getUserChats, sendChatRequest, sendAdviceRequest } from '../helpers/api-communicator';
 import {toast } from 'react-hot-toast';
@@ -20,6 +21,20 @@ type Diagnosis={
   probability: number,
   description: string,
   precautions: string
+}
+
+interface DashboardData {
+  pulseRate: string;
+  temperature: string;
+  bloodPressure: string;
+  weight: string;
+  age: string;
+  pregnancies: string;
+  glucose : string;
+  skinThickness: string;
+  insulin : string;
+  BMI : string;
+  diabetesPedigree : string
 }
 
 const Chat = () => {
@@ -121,35 +136,10 @@ const Chat = () => {
   };
 
   const handleAdviceCardPress = async()=>{
-
-    const wholeResponse = await sendAdviceRequest(); //actual output received as { content: {disease, probability, description, precautions}, role }
-    console.log(wholeResponse)
-  
-    const plsDisease = wholeResponse.chats.content.disease;
-    console.log(plsDisease)
-
-    const totalReply= `You're probably experiencing ${plsDisease} right now. If you would like to:`
-    const fop = "1. Receieve a detailed description: type 1"
-    const sop= "2. Learn about some precautions: type 2"
-    const topp = "3. Start over: clear the conversation"
-
-    const newMsg: Message = { role: "assistant", content: totalReply};
-    //const newMsg: Message = {content: plsDisease, role: "assistant"};
-    
-    //const chatData = await sendChatRequest(content); //dummy output as {content: string, role}
-
-    //setChatMessages([...chatData.chats]);
-    //setChatMessages([chatData[0].chats]);
+    const response = await axios.get('/user/advice');
+    console.log(response)
+    const newMsg: Message = { role: "assistant", content: response.data.chats.content.kidney};
     setChatMessages((prev) => [...prev, newMsg]);
-
-    const m2: Message = { role: "assistant", content: fop};
-    setChatMessages((prev) => [...prev, m2]);
-
-    const m3: Message = { role: "assistant", content: sop};
-    setChatMessages((prev) => [...prev, m3]);
-
-    const m4: Message = { role: "assistant", content: topp};
-    setChatMessages((prev) => [...prev, m4]);
   };
 
   useLayoutEffect(()=>{
