@@ -4,6 +4,9 @@ import { IoIosLogIn } from 'react-icons/io';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import CustomizedInput from '../components/shared/CustomizedInput';
+import { useNavigate} from 'react-router-dom';
+import {useAuth} from "../context/AuthContext";
+
 
 interface DashboardData {
   pulseRate: string;
@@ -14,6 +17,9 @@ interface DashboardData {
 }
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
+  const auth = useAuth();
   const [storedData, setStoredData] = useState<DashboardData | null>(null);
 
   const fetchData = async () => {
@@ -49,6 +55,13 @@ const Dashboard = () => {
     }
   };
 
+  
+  useEffect(()=>{
+    if(!auth?.user ){
+         return navigate("/login");
+    }
+
+  },[auth]);
   return (
     <Box width="90%" height="100vh" display="flex" justifyContent="space-between" alignItems="center" p={3}>
       <Box flex={1} marginTop="-270px" marginLeft="20px">
