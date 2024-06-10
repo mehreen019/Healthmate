@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX/UI</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- aside section start -->
+    <aside>
+
+      <div class="top">
+
+        <dive class="logo">
+          <h2><span class="danger">HEALTHMATE</span></h2>
+
+        </dive>
+        <div class="close" id="close_btn">
+          <span class="material-symbols-outlined"> close </span>
+        </div>
+      </div>
+      <!--end top-->
+
+      <div class="sidebar">
+
+        <a href="#" class="active">
+          <span class="material-symbols-outlined">grid_view</span>
+          <h3>Dashboard</h3>
+        </a>
+
+        <a href="#">
+          <span class="material-symbols-outlined">chat</span>
+          <h3>Chat</h3>
+        </a>
+
+        <a href="#">
+          <span class="material-symbols-outlined">logout</span>
+          <h3>Logout</h3>
+        </a>
+      </div>
+
+
+    </aside>
+    <!-- aside section end -->
+
+    <!-- main section start -->
+    <main>
+      <h1>Your Health Dashboard</h1>
+
+      <div class="date">
+        <input type="date">
+      </div>
+
+      <div class="insights">
+
+        <!-- start Pulse rate -->
+        <!-- start Pulse rate -->
+        <div class="pulse">
+          <span class="material-symbols-outlined">ecg_heart</span>
+          <div class="middle">
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Pulse Rate</h3>
+                <input type="text" placeholder="Enter your pulse" />
+              </div>
+            </form>
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!-- end Pulse rate -->
+
+        <!--end pulse rate-->
+
+        <!-- start Temperature -->
+        <div class="Temperature">
+          <span class="material-symbols-outlined">thermometer</span>
+          <div class="middle">
+
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Temperature</h3>
+                <input type="text" placeholder="Enter your temperature" />
+              </div>
+            </form>
+
+
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!--end Temperature-->
+
+        <!-- start Sp O% -->
+        <div class="spo2">
+          <span class="material-symbols-outlined">spo2</span>
+          <div class="middle">
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Oxygen Saturation</h3>
+                <input type="text" placeholder="Enter your spO%" />
+              </div>
+            </form>
+
+
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!--end Sp O%-->
+
+        <!-- start bp -->
+        <div class="bp">
+          <span class="material-symbols-outlined">blood_pressure</span>
+          <div class="middle">
+
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Blood Pressure</h3>
+                <input type="text" placeholder="Enter your bp" />
+              </div>
+            </form>
+
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!--end bp-->
+
+        <!-- start sleep -->
+        <div class="sleep">
+          <span class="material-symbols-outlined">sleep_score</span>
+          <div class="middle">
+
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Sleep Hours</h3>
+                <input type="text" placeholder="Enter your sleep hrs" />
+              </div>
+            </form>
+
+
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!--end sleep-->
+
+        <!-- start steps -->
+        <div class="steps">
+          <span class="material-symbols-outlined">footprint</span>
+          <div class="middle">
+
+            <form action="#" class="form">
+              <div class="input-box">
+                <h3>Steps</h3>
+                <input type="text" placeholder="Enter your steps" />
+              </div>
+            </form>
+
+          </div>
+          <small>Last 24 Hours</small>
+        </div>
+        <!--end steps-->
+
+      </div>
+      <!--end insights-->
+
+
+      <div class="my_health_timeline">
+        <h2>My Health Timeline</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Pulse Rate</th>
+              <th>Temperature</th>
+              <th>Blood Pressure</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>85</td>
+              <td>89 F</td>
+              <td>130/80</td>
+              <td class="primary">Healthy</td>
+
+            </tr>
+            <tr>
+              <td>98</td>
+              <td>91 F</td>
+              <td>160/90</td>
+              <td class="warning">--</td>
+
+            </tr>
+            <tr>
+              <td>85</td>
+              <td>89 F</td>
+              <td>130/80</td>
+              <td class="primary">Healthy</td>
+
+            </tr>
+            <tr>
+              <td>98</td>
+              <td>91 F</td>
+              <td>160/90</td>
+              <td class="warning">--</td>
+
+            </tr>
+
+          </tbody>
+        </table>
+        <a href="#">Show All</a>
+      </div>
+
+
+
+
+
+
+    </main>
+    <!-- main section end -->
+
+
+
+
+
+
+
+
+
+    <!-- right section start -->
+    <div class="right">
+
+      <div class="top">
+        <button id="menu_bar">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+
+        <div class="theme-toggler">
+          <span class="material-symbols-outlined active">light_mode</span>
+          <span class="material-symbols-outlined ">dark_mode</span>
+        </div>
+        <div class="profile">
+          <div class="info">
+            <p><b>Healthmate</b></p>
+            <p>Admin</p>
+            <small class="text-muted"></small>
+          </div>
+          <div class="profile-photo">
+            <img src="./images/images.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="health_advice">
+        <h2>Health Advice of The Day</h2>
+        <div class="advices">
+          <div class="advice">
+            <div class="profile-photo">
+              <img src="./images/images.jpg" alt="" />
+            </div>
+            <div class="message">
+              <p><b>Healthmate:</b> "advise"</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+  </div>
+
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
