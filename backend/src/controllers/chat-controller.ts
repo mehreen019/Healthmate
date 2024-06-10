@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import { configureOpenAI } from "../config/openai-config.js";
 import { OpenAIApi, ChatCompletionRequestMessage } from "openai";
 import { spawn } from 'child_process';
+
 export const generateChatCompletion = async (
   req: Request,
   res: Response,
@@ -47,6 +48,19 @@ export const generateChatCompletion = async (
       role,
       content,
     }));
+    
+    console.log(message)
+
+    if(message=="1"){
+      const lastChat = chats[chats.length-1]
+      return res.status(200).json({ chats: lastChat, statee:"1" });
+    }
+    else if(message=="2"){
+      const lastChat = chats[chats.length-1]
+      return res.status(200).json({ chats: lastChat, statee:"2" });
+    }
+    else{
+
     chats.push({ content: message, role: "user" });
     user.chats.push({ content: message, role: "user" });
 
@@ -87,9 +101,10 @@ export const generateChatCompletion = async (
       await user.save();
 
       //return res.status(200).json({ chats: user.chats });
-      return res.status(200).json({ chats: { content: response, role: "assistant" } });
+      return res.status(200).json({ chats: { content: response, role: "assistant" }, statee:"3" });
     });
 
+  }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Something went wrong " });

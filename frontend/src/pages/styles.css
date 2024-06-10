@@ -1,0 +1,61 @@
+
+
+
+.nochat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    color: var(--textcol);
+    font-size: 25px;
+    height: 70%;
+    position: relative;
+}
+
+.nochat-s1 {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.nochat-s1 h1 {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.nochat-s2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    gap: 20px;
+    justify-content: center;
+}
+
+.suggestioncard {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+    padding: 10px;
+    width: 400px;
+    border-radius: 10px;
+    background-color: rgb(192, 193, 193);
+
+}
+
+.suggestioncard h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: darkslategrey;
+
+}
+
+.suggestioncard p {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+}
