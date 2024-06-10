@@ -18,10 +18,16 @@ const Signup = () => {
       toast.loading("Signing In", {id:"login"});
       await auth?.signup(name , email , password);
       toast.loading("Signed up Successfuly", {id:"signup"});
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3000);
 
     } catch (error) {
       console.log(error);
       toast.loading("Signing up Failed", {id:"signup"});
+      setTimeout(() => {
+        toast.dismiss();
+      }, 3000);
 
     }
 
