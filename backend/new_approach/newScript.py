@@ -4,21 +4,27 @@ import json
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, ExtraTreesClassifier
+import spacy
+from rake_nltk import Rake
+import nltk
+nltk.download('stopwords')
+from spacy.lang.en.stop_words import STOP_WORDS
+
 
 # Load the model
 #model = pickle.load(open('new_approach/ExtraTrees', 'rb'))
 model=ExtraTreesClassifier()
-with open("new_approach/ExtraTrees_1_000.pkl", 'rb') as f:
+with open('new_approach/ExtraTrees_1_000.pkl', 'rb') as f:
     model =  pickle.load(f)
+    
+
+desc = pd.read_csv("new_approach/symptom_Description.csv")
+prec = pd.read_csv("new_approach/symptom_precaution.csv")
 
 # Define the diseases and symptoms lists
 diseases = [ '(vertigo) Paroymsal Positional Vertigo', 'AIDS', 'Acne', 'Alcoholic hepatitis', 'Allergy', 'Arthritis', 'Bronchial Asthma', 'Cervical spondylosis', 'Chicken pox', 'Chronic cholestasis', 'Common Cold', 'Dengue', 'Diabetes', 'Dimorphic hemmorhoids(piles)', 'Drug Reaction', 'Fungal infection', 'GERD', 'Gastroenteritis', 'Heart attack', 'Hepatitis B', 'Hepatitis C', 'Hepatitis D', 'Hepatitis E', 'Hypertension', 'Hyperthyroidism', 'Hypoglycemia', 'Hypothyroidism', 'Impetigo', 'Jaundice', 'Malaria', 'Migraine', 'Osteoarthristis', 'Paralysis (brain hemorrhage)', 'Peptic ulcer diseae', 'Pneumonia', 'Psoriasis', 'Tuberculosis', 'Typhoid', 'Urinary tract infection', 'Varicose veins', 'hepatitis A' ]
 
-symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions',
-       'continuous_sneezing', 'shivering', 'chills', 'joint_pain',
-       'stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting',
-       'vomiting', 'burning_micturition', 'fatigue', 'weight_gain',
-       'anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss',
+symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions','continuous_sneezing', 'shivering', 'chills', 'joint_pain','stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting','vomiting', 'burning_micturition', 'fatigue', 'weight_gain','anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss',
        'restlessness', 'lethargy', 'patches_in_throat',
        'irregular_sugar_level', 'cough', 'high_fever', 'sunken_eyes',
        'breathlessness', 'sweating', 'dehydration', 'indigestion',
@@ -29,8 +35,7 @@ symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions',
        'fluid_overload', 'swelling_of_stomach', 'swelled_lymph_nodes',
        'malaise', 'blurred_and_distorted_vision', 'phlegm',
        'throat_irritation', 'redness_of_eyes', 'sinus_pressure',
-       'runny_nose', 'congestion', 'chest_pain', 'weakness_in_limbs',
-       'fast_heart_rate', 'pain_during_bowel_movements',
+       'runny_nose', 'congestion', 'chest_pain', 'weakness_in_limbs','fast_heart_rate', 'pain_during_bowel_movements',
        'pain_in_anal_region', 'bloody_stool', 'irritation_in_anus',
        'neck_pain', 'dizziness', 'cramps', 'bruising', 'obesity',
        'swollen_legs', 'swollen_blood_vessels', 'puffy_face_and_eyes',
@@ -93,16 +98,43 @@ symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions',
 desc = pd.read_csv("new_approach/symptom_Description.csv")
 prec = pd.read_csv("new_approach/symptom_precaution.csv")
 
-def predict_disease(symptom_list):
+
+def predict_disease(passage, symptom_list):
     # Create a list of zeros
     features = [0]*len(symptoms)
-
-    # Set the corresponding indices to 1 for the symptoms present in the data
+    symp_list = []
+    resulting=[]
+    #symp_list = symptom_list
+    print("original symptoms: ", symptom_list)
+    count=10
+    
     for symptom in symptom_list:
+        arr = symptom
+        arr = arr.split(" ")
+        print(arr)
+        for i in range(len(arr)):
+            dem=arr[i]
+            for j in range(i+1, len(arr)):
+                dem+=" "+ arr[j]
+                if dem in symptoms:
+                    symp_list.append(dem)
+                
+    
+    
+    for olds in symptom_list:
+        if olds not in symp_list:
+            symp_list.append(olds)
+            
+    print("hopefully new symptom list ", symp_list)
+    
+    for symptom in symp_list:
         if symptom in symptoms:
             index = symptoms.index(symptom)
+            resulting.append(symptom)
             features[index] = 1
-
+            
+    print("resulting symptoms", resulting)
+    
     # Make prediction using the model
     proba = model.predict_proba([features])
 
@@ -118,7 +150,7 @@ def predict_disease(symptom_list):
     for i in range(5):
         disease = top5_diseases[i]
         probability = top5_proba[i]
-
+        
         # Get the disease description
         disp = desc[desc['Disease'] == disease].values[0][1] if disease in desc["Disease"].unique() else "No description available"
 
@@ -138,18 +170,45 @@ def predict_disease(symptom_list):
         })
     return response
 
+
 if __name__ == "__main__":
     for line in sys.stdin:
-        data = json.loads(line.strip())
-        """print({
+        data = line.strip()
+        
+        """
+        print({
             'disease': "",
             'probability': 0,
             'description': data,
             'precautions': ""
-        })"""
+        })
         result = predict_disease(data[0].split(", "))
         
         #print("response ok, " , data, " was received")
+        response = json.dumps(result[0])
+        print(response)
+        sys.stdout.flush()
+        """
+        
+        prep_data = data.split(" ")
+        for word in prep_data:
+            word.lower().replace(',', '').replace(' ', '').replace('.','').replace(':','').replace('-','')
+        
+
+        newdata=data.lower()
+        print(newdata)
+
+        r=Rake()
+        r.extract_keywords_from_text(newdata)
+        print(r.get_ranked_phrases_with_scores())
+
+        extracted_symptoms=[]
+
+        for rating, keyword in r.get_ranked_phrases_with_scores():
+            extracted_symptoms.append(keyword)
+
+        #print(prep_data)   
+        result = predict_disease(data[0], extracted_symptoms)
         response = json.dumps(result[0])
         print(response)
         sys.stdout.flush()

@@ -39,8 +39,9 @@ export const generateChatCompletion = async (req, res, next) => {
         }));
         chats.push({ content: message, role: "user" });
         user.chats.push({ content: message, role: "user" });
+        console.log(message);
         const pythonProcess = spawn('python', ['new_approach/newScript.py']);
-        pythonProcess.stdin.write(JSON.stringify([message]) + '\n');
+        pythonProcess.stdin.write(message + '\n');
         pythonProcess.stdin.end();
         let pythonOutput = '';
         pythonProcess.stdout.on('data', (data) => {
