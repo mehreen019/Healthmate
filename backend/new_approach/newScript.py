@@ -161,6 +161,7 @@ def predict_disease(passage, symptom_list):
         if disease in prec["Disease"].unique():
             c = np.where(prec['Disease'] == disease)[0][0]
             for j in range(1, len(prec.iloc[c])):
+                prec.iloc[c] = prec.iloc[c].fillna("")
                 precautions.append(prec.iloc[c, j])
                 
         # Add the disease prediction to the response
