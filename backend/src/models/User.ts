@@ -33,6 +33,26 @@ const dashboardSchema = new mongoose.Schema({
     bloodPressure: {
       type: String,
     },
+    pregnancies : {
+      type: String,
+    },
+    glucose : {
+      type: String,
+    },
+    skinThickness : {
+      type: String,
+    },
+    insulin : {
+      type: String,
+    },
+    BMI : {
+      type: String,
+    },
+    diabetesPedigree : {
+      type: String,
+    },
+
+
   });
 const userSchema = new mongoose.Schema({
     name : {

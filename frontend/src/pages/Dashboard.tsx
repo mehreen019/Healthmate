@@ -5,13 +5,6 @@ import CustomizedInput from '../components/shared/CustomizedInput';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 
-interface DashboardData {
-  pulseRate: string;
-  temperature: string;
-  bloodPressure: string;
-  weight: string;
-  age: string;
-}
 
 const healthAdviceQuotes = [
   "Drink plenty of water.",
@@ -65,6 +58,20 @@ const healthAdviceQuotes = [
   "Laugh often."
 ];
 
+interface DashboardData {
+  pulseRate: string;
+  temperature: string;
+  bloodPressure: string;
+  weight: string;
+  age: string;
+  pregnancies: string;
+  glucose : string;
+  skinThickness: string;
+  insulin : string;
+  BMI : string;
+  diabetesPedigree : string
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -78,11 +85,18 @@ const Dashboard = () => {
 
     // Simulate fetching data
     const simulatedData: DashboardData = {
-      pulseRate: "72 bpm",
-      temperature: "98.6 °F",
-      bloodPressure: "120/80 mmHg",
-      weight: "150 lbs",
-      age: "25"
+      pulseRate: "eg: 72 bpm",
+      temperature: "eg: 98.6 °F",
+      bloodPressure: "eg: 120/80 mmHg",
+      weight: "eg: 150 lbs",
+      age: "eg: 25",
+      pregnancies: "eg: 0",
+      glucose : "eg: 70 mg/dL",
+      skinThickness: "eg: 2mm",
+      insulin : "eg: 5-12 mIU/L",
+      BMI : "eg: 23",
+      diabetesPedigree : "eg: 1.42"
+
     };
     setStoredData(simulatedData);
 
@@ -99,14 +113,26 @@ const Dashboard = () => {
     const bloodPressure = formData.get("bloodPressure") as string;
     const weight = formData.get("weight") as string;
     const age = formData.get("age") as string;
+    const pregnancies = formData.get("pregnancies") as string;
+    const glucose = formData.get("glucose") as string;
+    const skinThickness = formData.get("skinThickness") as string;
+    const insulin = formData.get("insulin") as string;
+    const BMI = formData.get("BMI") as string;
+    const diabetesPedigree = formData.get("diabetesPedigree") as string;
+
 
     // Simulate saving data
-    const updatedData: DashboardData = { pulseRate, temperature, bloodPressure, weight, age };
+    const updatedData: DashboardData = { pulseRate, temperature, bloodPressure, weight, age, pregnancies, glucose, skinThickness, insulin,
+      BMI, diabetesPedigree   };
     setStoredData(updatedData);
+
+    const wholeResponse = await sendHealthData(storedData);
+    console.log(wholeResponse)
+
   };
 
   return (
-    <Box width="90%" height="100vh" display="flex" justifyContent="space-between" alignItems="center" p={3}>
+    <Box width="90%" display="flex" justifyContent="space-between" alignItems="center" p={3}>
       <Box flex={1} marginTop="-270px" marginLeft="20px">
         {storedData && (
           <Grid container spacing={2} sx={{ marginLeft: "10px" }}>
@@ -150,6 +176,42 @@ const Dashboard = () => {
                 <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.age}</Typography>
               </Box>
             </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>Pregnancies</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.pregnancies}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>Glucose</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.glucose}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>Skin Thickness</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.skinThickness}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>Insulin</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.insulin}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>BMI</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.BMI}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Diabetes pedigree function</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.diabetesPedigree}</Typography>
+              </Box>
+            </Grid>
             <Grid item xs={12}>
               <Typography variant="h4" sx={{ padding: "30px", marginTop: "20px" }}>
                 Today's Health Tip
@@ -173,6 +235,12 @@ const Dashboard = () => {
           <CustomizedInput type="text" name="temperature" label="Temperature" />
           <CustomizedInput type="text" name="weight" label="Weight" />
           <CustomizedInput type="text" name="bloodPressure" label="Blood Pressure" />
+          <CustomizedInput type="text" name="pregnancies" label="Number of pregnancies" />
+          <CustomizedInput type="text" name="glucose" label="Glucose level (mg/dL)" />
+          <CustomizedInput type="text" name="skinThickness" label="Skin Thickness (mm)" />
+          <CustomizedInput type="text" name="insulin" label="Insulin Level (IU/mL)" />
+          <CustomizedInput type="text" name="BMI" label="Body Mass Index (kg/m²)" />
+          <CustomizedInput type="text" name="diabetesPedigree" label="Diabetes Pedigree Function" />
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }} endIcon={<IoIosLogIn />}>
             Save
           </Button>
