@@ -127,7 +127,10 @@ const Dashboard = () => {
                 marginTop:"300px",
                 fontSize: { xs: "30px", md: "50px" },
                 fontWeight: "500",
-                textAlign: { xs: 'center', md: 'left' }
+                textAlign: { xs: 'center', md: 'left', 
+                marginTop:"400px",
+                marginLeft:"0px"
+                }
               }}>Today's Personal Health Dashboard</Typography>
             </Grid>
             {[
@@ -160,7 +163,7 @@ const Dashboard = () => {
           </Grid>
         )}
       </Box>
-      <Box width={{ xs: '100%', md: '280px' }} marginLeft="40px" marginRight="20px" padding="20px" boxShadow="10px 10px 20px #000" borderRadius="10px" border="none" mt={{ xs: '20px', md: '-50px' }}>
+      <Box width={{ xs: '40%', md: '280px' }} marginLeft="40px" marginRight="20px" padding="20px" boxShadow="10px 10px 20px #000" borderRadius="10px" border="none" mt={{ xs: '20px', md: '-50px' }}>
         <form onSubmit={handleSubmit}>
           <Typography variant="h4" alignItems="center" textAlign="center" fontWeight={300} mb={2}>
             Input Vitals
