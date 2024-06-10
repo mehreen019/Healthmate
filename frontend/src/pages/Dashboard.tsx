@@ -151,7 +151,7 @@ const Dashboard = () => {
               <Typography variant="h4" sx={{ padding: "30px", mt: "20px", textAlign: 'center' }}>
                 Today's Health Tip
               </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center" width="100%" height="100px" bgcolor="#e0f7fa" borderRadius="10px" border="1px solid #00bcd4">
+              <Box display="flex" justifyContent="center" alignItems="center" width="100%" height="100px" bgcolor="#e0f7fa" borderRadius="10px" border="1px solid #00bcd4" marginBottom= "50px">
                 <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>
                   {quote}
                 </Typography>
