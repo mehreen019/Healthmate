@@ -125,8 +125,6 @@ const Dashboard = () => {
               <Typography variant="h3" sx={{
                 padding: "30px",
                 marginTop:"300px",
-                
-                
                 fontSize: { xs: "30px", md: "50px" },
                 fontWeight: "500",
                 textAlign: { xs: 'center', md: 'left' }
@@ -136,12 +134,12 @@ const Dashboard = () => {
               { label: "Pulse Rate", value: storedData.pulseRate, icon: <FaHeartbeat style={{ color: "#ff0000" }} />, bgcolor: "#ffcccb" },
               { label: "Temperature", value: storedData.temperature, icon: <FaThermometerHalf style={{ color: "#0000ff" }} />, bgcolor: "#add8e6" },
               { label: "Blood Pressure", value: storedData.bloodPressure, icon: <FaTint style={{ color: "#008000" }} />, bgcolor: "#90ee90" },
-              { label: "Weight", value: storedData.weight, icon: <FaWeight style={{ color: "#d2b48c" }} />, bgcolor: "#f5f5dc" },
-              { label: "Age", value: storedData.age, icon: <FaUser style={{ color: "#ff69b4" }} />, bgcolor: "#ffe4e1" }
+              { label: "Weight", value: storedData.weight, icon: <FaWeight style={{ color: "#a18a38" }} />, bgcolor: "#f5f5dc" },
+              { label: "Age", value: storedData.age, icon: <FaUser style={{ color: "#802476" }} />, bgcolor: "#ffe4e1" }
             ].map((item, index) => (
               <Grid item xs={12} md={6} lg={4} key={index}>
-                <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="100%" height="200px" bgcolor="#e1e8f5" borderRadius="15px" boxShadow="0 2px 10px rgba(0, 0, 0, 0.1)" textAlign="center">
-                  <Box display="flex" justifyContent="center" alignItems="center" bgcolor={item.bgcolor} width="50px" height="50px" borderRadius="50%" marginBottom="10px">
+                <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width="100%" height="200px" bgcolor={item.bgcolor} borderRadius="15px" boxShadow="0 2px 10px rgba(0, 0, 0, 0.1)" textAlign="center">
+                  <Box display="flex" justifyContent="center" alignItems="center" bgcolor="#ffffff" width="50px" height="50px" borderRadius="50%" marginBottom="10px">
                     {item.icon}
                   </Box>
                   <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{item.label}</Typography>
