@@ -7,6 +7,9 @@ import { IoMdSend } from 'react-icons/io';
 import { deleteUserChats, getUserChats, sendChatRequest } from '../helpers/api-communicator';
 import {toast } from 'react-hot-toast';
 import { useNavigate} from 'react-router-dom';
+import './styles.css'
+import { grey} from '@mui/material/colors';
+
 type Message ={
   role:"user"|"assistant";
   content:string;
@@ -41,7 +44,14 @@ const Chat = () => {
 
     const plsDisease = wholeResponse.chats.content.disease;
     console.log(plsDisease)
-    const newMsg: Message = { role: "assistant", content: plsDisease};
+
+    if(wholeResponse.statee=="3"){
+    const totalReply= `You're probably experiencing ${plsDisease} right now. If you would like to:`
+    const fop = "1. Receieve a detailed description: type 1"
+    const sop= "2. Learn about some precautions: type 2"
+    const topp = "3. Start over: clear the conversation"
+
+    const newMsg: Message = { role: "assistant", content: totalReply};
     //const newMsg: Message = {content: plsDisease, role: "assistant"};
     
     //const chatData = await sendChatRequest(content); //dummy output as {content: string, role}
@@ -49,6 +59,44 @@ const Chat = () => {
     //setChatMessages([...chatData.chats]);
     //setChatMessages([chatData[0].chats]);
     setChatMessages((prev) => [...prev, newMsg]);
+
+    const m2: Message = { role: "assistant", content: fop};
+    setChatMessages((prev) => [...prev, m2]);
+
+    const m3: Message = { role: "assistant", content: sop};
+    setChatMessages((prev) => [...prev, m3]);
+
+    const m4: Message = { role: "assistant", content: topp};
+    setChatMessages((prev) => [...prev, m4]);
+    }
+    else if(wholeResponse.statee=="1"){
+      const totalReply= wholeResponse.chats.content.description
+      console.log(totalReply)
+
+      const newMsg: Message = { role: "assistant", content: totalReply};
+      setChatMessages((prev) => [...prev, newMsg]);
+
+      const fop = "If you would like to learn about precautions: type 2. Else clear the conversation to start a new one"
+      const m2: Message = { role: "assistant", content: fop};
+      setChatMessages((prev) => [...prev, m2]);
+    }
+    else if(wholeResponse.statee=="2"){
+      const reply= wholeResponse.chats.content.precautions
+      var mainReply=""
+      for(let i=0;i<reply.length;i++){
+        if(i!=0) mainReply+=", "+reply[i]
+        else mainReply+=reply[i]
+      }
+      
+      //console.log(totalReply)
+
+      const newMsg: Message = { role: "assistant", content: mainReply};
+      setChatMessages((prev) => [...prev, newMsg]);
+
+      const fop = "If you would like to receieve a detailed description: type 1. Else clear the conversation to start a new one"
+      const m2: Message = { role: "assistant", content: fop};
+      setChatMessages((prev) => [...prev, m2]);
+    }
 
   };
 
@@ -66,6 +114,17 @@ const Chat = () => {
       }
 
     };
+
+  const handleDiagnosisCardPress = async()=>{
+    const newMessage: Message = { role: "assistant", content: "What are your symptoms?" };
+    setChatMessages((prev) => [...prev, newMessage]);
+  };
+
+  const handleAdviceCardPress = async()=>{
+    const newMessage: Message = { role: "assistant", content: "generic ass advice for now" };
+    setChatMessages((prev) => [...prev, newMessage]);
+  };
+
   useLayoutEffect(()=>{
     if (auth?.isLoggedIn && auth.user)
       {
@@ -169,13 +228,40 @@ const Chat = () => {
       scrollBehavior:"smooth"
 
       }}>
+        {
+          chatMessages.length > 0 ? 
+          <div>
+          {chatMessages.map((chat,index)=>
+          // @ts-ignore
+          <ChatItem content={chat.content} role ={chat.role} key={index}/>
+          //<ChatItem content={"ok response"} role ={chat.role} key={index}/>
+          )}
+          </div>
 
-        {chatMessages.map((chat,index)=>
-        // @ts-ignore
-        <ChatItem content={chat.content} role ={chat.role} key={index}/>
-        //<ChatItem content={"ok response"} role ={chat.role} key={index}/>
-      )}
+          :
 
+          <div className="nochat">
+                            {/*<div className="nochat-s1">
+                                {/* <Image src={chatgptlogo} alt="chatgpt" height={70} width={70} /> }
+                                <h1>How can I help you today?</h1>
+                            </div> */}
+                            <div className="nochat-s2">
+                                <Button onClick={handleDiagnosisCardPress} className="suggestioncard" sx={{color:'white',fontWeight:"700",
+                                borderRadius:3, bgcolor : grey[600], ":hover" :{bgcolor: grey[300]}}}>
+                                    <h2>Diagnosis</h2>
+                                    <p>Ask questions to achieve an accurate diagnosis</p>
+                                </Button>
+                                <Button onClick={handleAdviceCardPress} className="suggestioncard" sx={{color:'white',fontWeight:"700",
+                                borderRadius:3, bgcolor : grey[600], ":hover" :{bgcolor: grey[300]}}}>
+                                    <h2>Health Analysis</h2>
+                                    <p>Receive personalized advice based on your dashboard information</p>
+                                </Button>
+                            </div>
+
+                        </div>
+
+
+      }
       </Box>
       <div style={{width:"100%",
         padding:"20px",
