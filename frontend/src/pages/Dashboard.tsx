@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid } from '@mui/material';
 import { IoIosLogIn } from 'react-icons/io';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import CustomizedInput from '../components/shared/CustomizedInput';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
@@ -71,24 +73,27 @@ const Dashboard = () => {
   const [storedData, setStoredData] = useState<DashboardData | null>(null);
   const [quote, setQuote] = useState<string>('');
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<DashboardData>('/user/dashboard-data');
+      setStoredData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   useEffect(() => {
     if (!auth?.user) {
-      return navigate("/login");
+      navigate("/login");
+    } else {
+      // Fetch a random quote from the static array
+      const randomIndex = Math.floor(Math.random() * healthAdviceQuotes.length);
+      setQuote(healthAdviceQuotes[randomIndex]);
     }
-
-    // Simulate fetching data
-    const simulatedData: DashboardData = {
-      pulseRate: "72 bpm",
-      temperature: "98.6 °F",
-      bloodPressure: "120/80 mmHg",
-      weight: "150 lbs",
-      age: "25"
-    };
-    setStoredData(simulatedData);
-
-    // Fetch a random quote from the static array
-    const randomIndex = Math.floor(Math.random() * healthAdviceQuotes.length);
-    setQuote(healthAdviceQuotes[randomIndex]);
   }, [auth, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -100,9 +105,15 @@ const Dashboard = () => {
     const weight = formData.get("weight") as string;
     const age = formData.get("age") as string;
 
-    // Simulate saving data
-    const updatedData: DashboardData = { pulseRate, temperature, bloodPressure, weight, age };
-    setStoredData(updatedData);
+    try {
+      toast.loading('Saving Data', { id: 'dashboard' });
+      await axios.post('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age });
+      toast.success('Data Saved Successfully', { id: 'dashboard' });
+      fetchData();  // Fetch updated data after save
+    } catch (error) {
+      console.error('Error saving data:', error);
+      toast.error('Failed to Save Data', { id: 'dashboard' });
+    }
   };
 
   return (
@@ -113,7 +124,7 @@ const Dashboard = () => {
             <Grid item xs={12}>
               <Typography variant="h3" sx={{
                 padding: "30px",
-                marginTop: "-10px",
+                marginTop: "100px",
                 marginBottom: "50px",
                 marginLeft: "0px",
                 fontSize: "50px",
