@@ -11,11 +11,20 @@ type Message ={
   role:"user"|"assistant";
   content:string;
 };
+
+type Diagnosis={
+  disease: string,
+  probability: number,
+  description: string,
+  precautions: string
+}
+
 const Chat = () => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const auth = useAuth();
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const [primaryDiagnosis, setPrimaryDiagnosis] = useState<Diagnosis[]>([]);
   const handleSubmit = async () => {
     const content = inputRef.current?.value as string;
     if (inputRef && inputRef.current) {
@@ -23,11 +32,26 @@ const Chat = () => {
     }
     const newMessage: Message = { role: "user", content };
     setChatMessages((prev) => [...prev, newMessage]);
-    const chatData = await sendChatRequest(content);
-    setChatMessages([...chatData.chats]);
-    //
+
+    console.log("reached setChatMessages first one")
+    const wholeResponse = await sendChatRequest(content); //actual output received as { content: {disease, probability, description, precautions}, role }
+    console.log(wholeResponse)
+    //setPrimaryDiagnosis(()=> [wholeResponse.content]);
+    setPrimaryDiagnosis(wholeResponse.chats.content);
+
+    const plsDisease = wholeResponse.chats.content.disease;
+    console.log(plsDisease)
+    const newMsg: Message = { role: "assistant", content: plsDisease};
+    //const newMsg: Message = {content: plsDisease, role: "assistant"};
+    
+    //const chatData = await sendChatRequest(content); //dummy output as {content: string, role}
+
+    //setChatMessages([...chatData.chats]);
+    //setChatMessages([chatData[0].chats]);
+    setChatMessages((prev) => [...prev, newMsg]);
 
   };
+
   const handleDeleteChats = async()=>
     {
       try{
@@ -135,7 +159,7 @@ const Chat = () => {
           mx: "auto",
          
       }}>
-        Model - GPT 1.0 
+        HEALTHMATE 
 
       </Typography>
       <Box sx ={{width:"100%",height:"60vh",borderRadius:3,mx:'auto',
@@ -145,9 +169,11 @@ const Chat = () => {
       scrollBehavior:"smooth"
 
       }}>
+
         {chatMessages.map((chat,index)=>
         // @ts-ignore
         <ChatItem content={chat.content} role ={chat.role} key={index}/>
+        //<ChatItem content={"ok response"} role ={chat.role} key={index}/>
       )}
 
       </Box>
