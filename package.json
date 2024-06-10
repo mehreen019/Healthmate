@@ -3,6 +3,7 @@
     "@date-io/date-fns": "^3.0.0",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/x-date-pickers": "^7.6.2",
+    "react-icons": "^5.2.1",
     "styled-components": "^6.1.11"
   }
 }
