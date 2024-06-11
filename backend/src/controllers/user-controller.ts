@@ -138,14 +138,14 @@ export const saveDashboardData = async (
     } = req.body;
 
     try {
-        // Retrieve user ID from JWT payload
+      
         const suser = await User.findById(res.locals.jwtData.id);
         const userId = res.locals.jwtData.id;
         if (!userId) {
             return res.status(401).json({ error: 'User ID not found' });
         }
 
-        // Find the user by ID and update the dashboard field
+        
         const user = await User.findByIdAndUpdate(
             userId,
             {
@@ -231,7 +231,7 @@ export const getDashboardData = async (req, res) => {
         const response = JSON.parse(pythonOutput);
 
         console.log(response)
-        // Save the diagnosis to the user's chat history
+        
         //user.chats.push({ content: response, role: "assistant" });    //dummy output as string - change in user schema as well
         //user.chats.push({ content: response, role: "assistant" });  //actual output as JSON
 

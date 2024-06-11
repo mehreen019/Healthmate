@@ -1,0 +1,9 @@
+numpy
+pandas
+sys
+json
+scikit-learn
+spacy
+rake_nltk
+nltk
+matplotlib
