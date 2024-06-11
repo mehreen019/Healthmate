@@ -102,7 +102,7 @@ export const verifyUser = async (req, res, next) => {
     }
 };
 export const saveDashboardData = async (req, res, next) => {
-    const { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose, skinThickness, insulin, BMI, diabetesPedigree } = req.body;
+    const { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose, skinThickness, insulin, BMI, diabetesPedigree, dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar, rbcCount, pusCount, pusClumps, clumpThick, cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin, normalNuclei, mitoses } = req.body;
     try {
         // Retrieve user ID from JWT payload
         const suser = await User.findById(res.locals.jwtData.id);
@@ -116,7 +116,10 @@ export const saveDashboardData = async (req, res, next) => {
                 skinThickness,
                 insulin,
                 BMI,
-                diabetesPedigree }
+                diabetesPedigree,
+                dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+                rbcCount, pusCount, pusClumps, clumpThick, cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin, normalNuclei, mitoses
+            }
         }, { new: true });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

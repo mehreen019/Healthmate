@@ -72,7 +72,28 @@ interface DashboardData {
   skinThickness: string;
   insulin : string;
   BMI : string;
-  diabetesPedigree : string
+  diabetesPedigree : string,
+  dirBilirubin : string,
+  totBilirubin : string,
+  alkPhos : string,
+  alaAmino :string,
+  totProtein :string,
+  albumin : string,
+  albuminGlobulinRatio :string,
+  specificGravity :string,
+  bloodSugar : string,
+  rbcCount :string,
+  pusCount : string,
+  pusClumps : string,
+  clumpThick : string,
+  cellSize : string,
+  cellShape : string,
+  marginalAdhesion : string,
+  epithelial : string,
+  bareNuclei : string,
+  chromatin : string,
+  normalNuclei : string,
+  mitoses : string
 }
 
 const Dashboard = () => {
@@ -121,13 +142,35 @@ const Dashboard = () => {
     const insulin = formData.get("insulin") as string;
     const BMI = formData.get("BMI") as string;
     const diabetesPedigree = formData.get("diabetesPedigree") as string;
-
+    const dirBilirubin = formData.get("dirBilirubin") as string;
+    const totBilirubin = formData.get("totBilirubin") as string;
+    const alkPhos = formData.get("alkPhos") as string;
+    const alaAmino = formData.get("alaAmino") as string;
+    const totProtein = formData.get("totProtein") as string;
+    const albumin = formData.get("albumin") as string;
+    const albuminGlobulinRatio = formData.get("albuminGlobulinRatio") as string;
+    const specificGravity  = formData.get("specificGravity ") as string;
+    const bloodSugar = formData.get("bloodSugar") as string;
+    const rbcCount = formData.get("rbcCount") as string;
+    const pusCount = formData.get("pusCount") as string;
+    const pusClumps = formData.get("pusClumps") as string;
+    const clumpThick = formData.get("clumpThick") as string;
+    const  cellSize = formData.get("cellSize") as string;
+    const cellShape = formData.get("cellShape") as string;
+    const marginalAdhesion = formData.get("marginalAdhesion") as string;
+    const epithelial = formData.get("epithelial") as string;
+    const bareNuclei = formData.get("bareNuclei") as string;
+    const chromatin = formData.get("chromatin") as string;
+    const normalNuclei = formData.get("normalNuclei") as string;
+    const mitoses = formData.get("mitoses") as string;
+    
 
     // Simulate saving data
     try {
       toast.loading('Saving Data', { id: 'dashboard' });
       await axios.post('/user/save-dashboard', { pulseRate, temperature, bloodPressure, weight, age, pregnancies, glucose, skinThickness, insulin, 
-        BMI, diabetesPedigree
+        BMI, diabetesPedigree, dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+        rbcCount, pusCount, pusClumps, clumpThick,  cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin,normalNuclei, mitoses
        });
       toast.success('Data Saved Successfully', { id: 'dashboard' });
       fetchData();
@@ -138,11 +181,11 @@ const Dashboard = () => {
   };
 
   return (
-    <Box width="90%" display="flex" justifyContent="space-between" alignItems="center" p={3}>
+    <Box width="90%" display="flex" justifyContent="space-between" alignItems="start" p={3}>
       <Box flex={1} marginTop="-270px" marginLeft="20px">
         {storedData && (
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={12} align-items="initial">
               <Typography variant="h3" sx={{
                 padding: "30px",
                 marginTop:"300px",
@@ -217,6 +260,135 @@ const Dashboard = () => {
                 <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.diabetesPedigree}</Typography>
               </Box>
             </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Total Bilirubin</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.totBilirubin}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Direct Bilirubin</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.dirBilirubin}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Alkaline Phosphotase</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.alkPhos}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Alamine Aminotransferase</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.alaAmino}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Total Protiens</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.totProtein}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Albumin</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.albumin}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Albumin and Globulin Ratio</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.albuminGlobulinRatio}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Specific Gravity</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.specificGravity}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Blood Sugar Level</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.bloodSugar}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Red Blood Cells Count</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.rbcCount}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Pus Cell Count</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.pusCount}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Pus Cell Clumps</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.pusClumps}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Clump Thickness </Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.clumpThick}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Uniform Cell size</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.cellSize}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Uniform Cell shape</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.cellShape}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Marginal Adhesion</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.marginalAdhesion}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Single Epithelial Cell Size</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.epithelial}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Bare Nuclei</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.bareNuclei}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Bland Chromatin</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.chromatin}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Normal Nucleoli</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.normalNuclei}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" width={200} height={100} bgcolor="#ffe4e1" borderRadius="10px" border="1px solid #ff69b4">
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "15px" }}>Mitoses</Typography>
+                <Typography sx={{ color: "black", fontWeight: "600", fontSize: "20px" }}>{storedData.mitoses}</Typography>
+              </Box>
+            </Grid>
+
+
+
             <Grid item xs={12}>
               <Typography variant="h4" sx={{ padding: "30px", mt: "20px", textAlign: 'center' }}>
                 Today's Health Tip
@@ -246,6 +418,31 @@ const Dashboard = () => {
           <CustomizedInput type="text" name="insulin" label="Insulin Level (IU/mL)" />
           <CustomizedInput type="text" name="BMI" label="Body Mass Index (kg/m²)" />
           <CustomizedInput type="text" name="diabetesPedigree" label="Diabetes Pedigree Function" />
+          <CustomizedInput type="text" name="dirBilirubin" label="Direct bilirubin" />
+          <CustomizedInput type="text" name="totBilirubin" label="Total Bilirubin" />
+          <CustomizedInput type="text" name="alkPhos" label="Alkaline Phosphotase" />
+          <CustomizedInput type="text" name="alaAmino" label="Alamine Aminotransferase" />
+          <CustomizedInput type="text" name="totProtein" label="Total Protein" />
+          <CustomizedInput type="text" name="albumin" label="Albumin" />
+          <CustomizedInput type="text" name="albuminGlobulinRatio" label="Albumin and Globulin Ratio" />
+          <CustomizedInput type="text" name="specificGravity" label="Specific Gravity" />
+          <CustomizedInput type="text" name="bloodSugar" label="Blood Sugar Levels" />
+          <CustomizedInput type="text" name="rbcCount" label="Red Blood Cell Count" />
+          <CustomizedInput type="text" name="pusCount" label="Pus Cell Count" />
+          <CustomizedInput type="text" name="pusClumps" label="Pus Cell Clumps" />
+          <CustomizedInput type="text" name="clumpThick" label="Clump Thickness" />
+          <CustomizedInput type="text" name="cellSize" label="Uniform Cell Size" />
+          <CustomizedInput type="text" name="cellShape" label="Uniform Cell Shape" />
+          <CustomizedInput type="text" name="marginalAdhesion" label="Marginal Adhesion" />
+          <CustomizedInput type="text" name="epithelial" label="Single Epithelial Cell Size" />
+          <CustomizedInput type="text" name="bareNuclei" label="Bare Nuclei" />
+          <CustomizedInput type="text" name="chromatin" label="Bland Chromatin" />
+          <CustomizedInput type="text" name="normalNuclei" label="Normal Nucleoli" />
+          <CustomizedInput type="text" name="mitoses" label="Mitoses" />
+
+
+
+
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }} endIcon={<IoIosLogIn />}>
             Save
           </Button>

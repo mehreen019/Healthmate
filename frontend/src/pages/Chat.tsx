@@ -138,8 +138,20 @@ const Chat = () => {
   const handleAdviceCardPress = async()=>{
     const response = await axios.get('/user/advice');
     console.log(response)
-    const newMsg: Message = { role: "assistant", content: response.data.chats.content.kidney};
+    const kidneyOut=""
+    var diaOut=""
+    var bOut=""
+    if(response.data.chats.content.diabetes==1) diaOut+="You have a high risk of diabetes"
+    else if(response.data.chats.content.diabetes==0) diaOut+="You have a low risk of diabetes"
+
+    if(response.data.chats.content.breast_cancer==1) bOut+="You have a high risk of breast cancer"
+    else if(response.data.chats.content.breast_cancer==0) bOut+="You have a low risk of breast cancer"
+
+    const newMsg: Message = { role: "assistant", content: diaOut};
     setChatMessages((prev) => [...prev, newMsg]);
+
+    const newMsg2: Message = { role: "assistant", content: bOut};
+    setChatMessages((prev) => [...prev, newMsg2]);
   };
 
   useLayoutEffect(()=>{

@@ -132,7 +132,10 @@ export const saveDashboardData = async (
       skinThickness,
       insulin,
       BMI,
-      diabetesPedigree } = req.body;
+      diabetesPedigree,
+      dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+        rbcCount, pusCount, pusClumps, clumpThick,  cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin,normalNuclei, mitoses
+    } = req.body;
 
     try {
         // Retrieve user ID from JWT payload
@@ -150,7 +153,10 @@ export const saveDashboardData = async (
                 skinThickness,
                 insulin,
                 BMI,
-                diabetesPedigree  }
+                diabetesPedigree,
+                dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+                rbcCount, pusCount, pusClumps, clumpThick,  cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin,normalNuclei, mitoses
+                }
             },
             { new: true }
         );
