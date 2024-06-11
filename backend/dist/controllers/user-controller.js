@@ -104,13 +104,11 @@ export const verifyUser = async (req, res, next) => {
 export const saveDashboardData = async (req, res, next) => {
     const { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose, skinThickness, insulin, BMI, diabetesPedigree, dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar, rbcCount, pusCount, pusClumps, clumpThick, cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin, normalNuclei, mitoses } = req.body;
     try {
-        // Retrieve user ID from JWT payload
         const suser = await User.findById(res.locals.jwtData.id);
         const userId = res.locals.jwtData.id;
         if (!userId) {
             return res.status(401).json({ error: 'User ID not found' });
         }
-        // Find the user by ID and update the dashboard field
         const user = await User.findByIdAndUpdate(userId, {
             dashboard: { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose,
                 skinThickness,
@@ -175,7 +173,6 @@ export const getAdvice = async (req, res) => {
             console.log("will parse");
             const response = JSON.parse(pythonOutput);
             console.log(response);
-            // Save the diagnosis to the user's chat history
             //user.chats.push({ content: response, role: "assistant" });    //dummy output as string - change in user schema as well
             //user.chats.push({ content: response, role: "assistant" });  //actual output as JSON
             //await user.save();

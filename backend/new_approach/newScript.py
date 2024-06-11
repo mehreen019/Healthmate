@@ -11,8 +11,7 @@ nltk.download('stopwords')
 from spacy.lang.en.stop_words import STOP_WORDS
 
 
-# Load the model
-#model = pickle.load(open('new_approach/ExtraTrees', 'rb'))
+
 model=ExtraTreesClassifier()
 with open('new_approach/ExtraTrees_1_000.pkl', 'rb') as f:
     model =  pickle.load(f)
@@ -21,7 +20,7 @@ with open('new_approach/ExtraTrees_1_000.pkl', 'rb') as f:
 desc = pd.read_csv("new_approach/symptom_Description.csv")
 prec = pd.read_csv("new_approach/symptom_precaution.csv")
 
-# Define the diseases and symptoms lists
+
 diseases = [ '(vertigo) Paroymsal Positional Vertigo', 'AIDS', 'Acne', 'Alcoholic hepatitis', 'Allergy', 'Arthritis', 'Bronchial Asthma', 'Cervical spondylosis', 'Chicken pox', 'Chronic cholestasis', 'Common Cold', 'Dengue', 'Diabetes', 'Dimorphic hemmorhoids(piles)', 'Drug Reaction', 'Fungal infection', 'GERD', 'Gastroenteritis', 'Heart attack', 'Hepatitis B', 'Hepatitis C', 'Hepatitis D', 'Hepatitis E', 'Hypertension', 'Hyperthyroidism', 'Hypoglycemia', 'Hypothyroidism', 'Impetigo', 'Jaundice', 'Malaria', 'Migraine', 'Osteoarthristis', 'Paralysis (brain hemorrhage)', 'Peptic ulcer diseae', 'Pneumonia', 'Psoriasis', 'Tuberculosis', 'Typhoid', 'Urinary tract infection', 'Varicose veins', 'hepatitis A' ]
 
 symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions','continuous_sneezing', 'shivering', 'chills', 'joint_pain','stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting','vomiting', 'burning_micturition', 'fatigue', 'weight_gain','anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss',
@@ -94,17 +93,17 @@ symptoms =['itching', 'skin_rash', 'nodal_skin_eruptions','continuous_sneezing',
        'yellow crust ooze', 'ulcers on tongue', 'spotting  urination',
        'pain behind the eyes', 'red spots over body', 'internal itching']
        
-# Load the description and precautions data
+
 desc = pd.read_csv("new_approach/symptom_Description.csv")
 prec = pd.read_csv("new_approach/symptom_precaution.csv")
 
 
 def predict_disease(passage, symptom_list):
-    # Create a list of zeros
+    
     features = [0]*len(symptoms)
     symp_list = []
     resulting=[]
-    #symp_list = symptom_list
+    
     count=10
     
     for symptom in symptom_list:
@@ -114,6 +113,10 @@ def predict_disease(passage, symptom_list):
         for i in range(len(arr)):
             dem=arr[i]
             dem2=arr[i]
+            
+            if(arr[i] in symptoms):
+                symp_list.append(arr[i])
+            
             for j in range(i+1, len(arr)):
                 dem+="_"+ arr[j]
                 dem2+=" "+arr[j]
@@ -136,27 +139,34 @@ def predict_disease(passage, symptom_list):
             resulting.append(symptom)
             features[index] = 1
             
+    if(len(resulting)==0): return [{
+            'disease': 'none',
+            'probability': '0',
+            'description': 'none',
+            'precautions': 'none'
+        }]
+            
     
-    # Make prediction using the model
+ 
     proba = model.predict_proba([features])
 
-    # Get the indices and probabilities of the top 5 classes
+    
     top5_idx = np.argsort(proba[0])[-5:][::-1]
     top5_proba = np.sort(proba[0])[-5:][::-1]
 
-    # Get the names of the top 5 diseases
+    
     top5_diseases = [diseases[i] for i in top5_idx]
 
-    # Prepare the response
+   
     response = []
     for i in range(5):
         disease = top5_diseases[i]
         probability = top5_proba[i]
         
-        # Get the disease description
+        
         disp = desc[desc['Disease'] == disease].values[0][1] if disease in desc["Disease"].unique() else "No description available"
 
-        # Get the precautions
+       
         precautions = []
         if disease in prec["Disease"].unique():
             c = np.where(prec['Disease'] == disease)[0][0]
@@ -164,7 +174,7 @@ def predict_disease(passage, symptom_list):
                 prec.iloc[c] = prec.iloc[c].fillna("")
                 precautions.append(prec.iloc[c, j])
                 
-        # Add the disease prediction to the response
+        
         response.append({
             'disease': disease,
             'probability': float(probability),
