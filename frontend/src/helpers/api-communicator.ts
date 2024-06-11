@@ -1,5 +1,7 @@
 
 import axios from "axios";
+
+
 export const loginUser = async (email : string, password : string) => {
     const res = await axios.post("/user/login", {email, password});
     if(res.status != 200)
@@ -31,6 +33,35 @@ export const checkAuthStatus = async () => {
     //return { chats: {role: "user", content:"ok chat"}, diagnosis: "ok diagnosis" };
     
   };
+
+  export const sendHealthData = async (message: string) => {
+    console.log("reached send chat in api comm")
+   const res = await axios.post("/chat/new", { message });
+    //const res = "hi";
+    if (res.status !== 200) {
+      throw new Error("Unable to send chat");
+    }
+    const data = await res.data;
+    return data;
+    //return { chats: {role: "user", content:"ok chat"}, diagnosis: "ok diagnosis" };
+    
+  };
+
+  export const sendAdviceRequest = async () => {
+    console.log("reached send chat in dashboard comm")
+   const res = await axios.get("/chat/advice");
+    //const res = "hi";
+    if (res.status !== 200) {
+      throw new Error("Unable to send chat");
+    }
+    const data = await res.data;
+    return data;
+    //return { chats: {role: "user", content:"ok chat"}, diagnosis: "ok diagnosis" };
+    
+  };
+
+
+
   export const getUserChats = async () => {
     const res = await axios.get("/chat/all-chats");
      //const res = "hi";

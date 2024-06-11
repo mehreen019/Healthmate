@@ -33,6 +33,90 @@ const dashboardSchema = new mongoose.Schema({
     bloodPressure: {
       type: String,
     },
+    pregnancies : {
+      type: String,
+    },
+    glucose : {
+      type: String,
+    },
+    skinThickness : {
+      type: String,
+    },
+    insulin : {
+      type: String,
+    },
+    BMI : {
+      type: String,
+    },
+    diabetesPedigree : {
+      type: String,
+    },
+    dirBilirubin : {
+      type: String,
+    },
+    totBilirubin : {
+      type: String,
+    },
+    alkPhos : {
+      type: String,
+    },
+    alaAmino : {
+      type: String,
+    },
+    totProtein : {
+      type: String,
+    },
+    albumin : {
+      type: String,
+    },
+    albuminGlobulinRatio : {
+      type: String,
+    },
+    specificGravity : {
+      type: String,
+    },
+    bloodSugar : {
+      type: String,
+    },
+    rbcCount : {
+      type: String,
+    },
+    pusCount : {
+      type: String,
+    },
+    pusClumps : {
+      type: String,
+    },
+    clumpThick : {
+      type: String,
+    },
+    cellSize : {
+      type: String,
+    },
+    cellShape : {
+      type: String,
+    },
+    marginalAdhesion : {
+      type: String,
+    },
+    epithelial : {
+      type: String,
+    },
+    bareNuclei : {
+      type: String,
+    },
+    chromatin : {
+      type: String,
+    },
+    normalNuclei : {
+      type: String,
+    },
+    mitoses : {
+      type: String,
+    }
+
+
+
   });
 const userSchema = new mongoose.Schema({
     name : {

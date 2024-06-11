@@ -3,6 +3,8 @@ import User from "../models/User.js"
 import { hash, compare } from 'bcrypt';
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
+import { spawn } from 'child_process';
+
 export const getAllUsers = async (
     req:Request,
     res:Response, 
@@ -126,7 +128,14 @@ export const saveDashboardData = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { pulseRate, age, temperature, weight, bloodPressure } = req.body;
+    const { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose,
+      skinThickness,
+      insulin,
+      BMI,
+      diabetesPedigree,
+      dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+        rbcCount, pusCount, pusClumps, clumpThick,  cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin,normalNuclei, mitoses
+    } = req.body;
 
     try {
         // Retrieve user ID from JWT payload
@@ -140,7 +149,14 @@ export const saveDashboardData = async (
         const user = await User.findByIdAndUpdate(
             userId,
             {
-                dashboard: { pulseRate, age, temperature, weight, bloodPressure }
+                dashboard: { pulseRate, age, temperature, weight, bloodPressure, pregnancies, glucose,
+                skinThickness,
+                insulin,
+                BMI,
+                diabetesPedigree,
+                dirBilirubin, totBilirubin, alkPhos, alaAmino, totProtein, albumin, albuminGlobulinRatio, specificGravity, bloodSugar,
+                rbcCount, pusCount, pusClumps, clumpThick,  cellSize, cellShape, marginalAdhesion, epithelial, bareNuclei, chromatin,normalNuclei, mitoses
+                }
             },
             { new: true }
         );
@@ -164,12 +180,74 @@ export const getDashboardData = async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+
+      console.log(user.dashboard)
       res.status(200).json(user.dashboard);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+  export const getAdvice = async (req, res) => {
+    try {
+      const userId = res.locals.jwtData.id; // Assuming you store the user ID in the token
+      const user = await User.findById(userId).select('dashboard'); // Adjust field selection as necessary
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      console.log(user.dashboard)
+      //res.status(200).json(user.dashboard);
+
+
+      const pythonProcess = spawn('python', ['new_approach/newDashboard.py']);
+
+      pythonProcess.stdin.write(JSON.stringify(user.dashboard) + '\n');
+      pythonProcess.stdin.end();
+
+      let pythonOutput = '';
+
+      pythonProcess.stdout.on('data', (data) => {
+
+        console.log(data)
+        //if(data.disease!="") 
+        pythonOutput += data.toString();
+      });
+
+      pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+      });
+
+      pythonProcess.on('close', async (code) => {
+        if (code !== 0) {
+          console.error(`Python process exited with code ${code}`);
+          return res.status(500).json({ message: "Python script error" });
+        }
+
+        console.log("will parse")
+
+      
+        const response = JSON.parse(pythonOutput);
+
+        console.log(response)
+        // Save the diagnosis to the user's chat history
+        //user.chats.push({ content: response, role: "assistant" });    //dummy output as string - change in user schema as well
+        //user.chats.push({ content: response, role: "assistant" });  //actual output as JSON
+
+        //await user.save();
+
+        //return res.status(200).json({ chats: user.chats });
+        return res.status(200).json({ chats: { content: response, role: "assistant" }});
+    });
+  }
+     catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+
   export const userLogout = async (
     req: Request,
     res: Response,
