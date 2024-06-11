@@ -60,7 +60,10 @@ const Chat = () => {
     const plsDisease = wholeResponse.chats.content.disease;
     console.log(plsDisease)
 
-    if(wholeResponse.statee=="3"){
+    if(plsDisease=='none'){
+      setChatMessages((prev) => [...prev, {role:'assistant', content:'Invalid input'}]);
+    }
+    else if(wholeResponse.statee=="3"){
     const totalReply= `You're probably experiencing ${plsDisease} right now. If you would like to:`
     const fop = "1. Receieve a detailed description: type 1"
     const sop= "2. Learn about some precautions: type 2"
@@ -141,17 +144,27 @@ const Chat = () => {
     const kidneyOut=""
     var diaOut=""
     var bOut=""
-    if(response.data.chats.content.diabetes==1) diaOut+="You have a high risk of diabetes"
-    else if(response.data.chats.content.diabetes==0) diaOut+="You have a low risk of diabetes"
+    var liv=""
+    if(response.data.chats.content.diabetes==1) diaOut+="Based on the data provided, You have a high risk of diabetes. You should consult healthcare professionals immediately"
+    else if(response.data.chats.content.diabetes==0) diaOut+="You have a low risk of diabetes as your health parameters are normal"
+    else if(response.data.chats.content.diabetes==2) diaOut+="Not enough data has been provided to detect diabetes"
 
-    if(response.data.chats.content.breast_cancer==1) bOut+="You have a high risk of breast cancer"
-    else if(response.data.chats.content.breast_cancer==0) bOut+="You have a low risk of breast cancer"
+    if(response.data.chats.content.breast_cancer==1) bOut+="Based on the data provided, You have a high risk of breast cancer. You should consult healthcare professionals immediately"
+    else if(response.data.chats.content.breast_cancer==0) bOut+="You have a low risk of breast cancer as your health parameters are normal"
+    else if(response.data.chats.content.breast_cancer==2) bOut+="Not enough data has been provided to breast cancer"
+
+    if(response.data.chats.content.liver==1) liv+="Based on the data provided, You have a high risk of liver disease. You should consult healthcare professionals immediately"
+    else if(response.data.chats.content.liver==0) liv+="You have a low risk of liver disease as your health parameters are normal"
+    else if(response.data.chats.content.liver==2) liv+="Not enough data has been provided to breast cancer"
 
     const newMsg: Message = { role: "assistant", content: diaOut};
     setChatMessages((prev) => [...prev, newMsg]);
 
     const newMsg2: Message = { role: "assistant", content: bOut};
     setChatMessages((prev) => [...prev, newMsg2]);
+
+    const newMsg3: Message = { role: "assistant", content: liv};
+    setChatMessages((prev) => [...prev, newMsg3]);
   };
 
   useLayoutEffect(()=>{

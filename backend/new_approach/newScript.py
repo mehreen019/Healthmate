@@ -114,6 +114,10 @@ def predict_disease(passage, symptom_list):
         for i in range(len(arr)):
             dem=arr[i]
             dem2=arr[i]
+            
+            if(arr[i] in symptoms):
+                symp_list.append(arr[i])
+            
             for j in range(i+1, len(arr)):
                 dem+="_"+ arr[j]
                 dem2+=" "+arr[j]
@@ -135,6 +139,13 @@ def predict_disease(passage, symptom_list):
             index = symptoms.index(symptom)
             resulting.append(symptom)
             features[index] = 1
+            
+    if(len(resulting)==0): return [{
+            'disease': 'none',
+            'probability': '0',
+            'description': 'none',
+            'precautions': 'none'
+        }]
             
     
     # Make prediction using the model

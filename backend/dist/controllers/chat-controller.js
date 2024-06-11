@@ -39,10 +39,24 @@ export const generateChatCompletion = async (req, res, next) => {
         }));
         console.log(message);
         if (message == "1") {
+            if (chats.length == 0)
+                return res.status(200).json({ chats: { content: {
+                            'disease': 'none',
+                            'probability': '0',
+                            'description': 'none',
+                            'precautions': 'none'
+                        }, role: 'assistant' }, statee: "1" });
             const lastChat = chats[chats.length - 1];
             return res.status(200).json({ chats: lastChat, statee: "1" });
         }
         else if (message == "2") {
+            if (chats.length == 0)
+                return res.status(200).json({ chats: { content: {
+                            'disease': 'none',
+                            'probability': '0',
+                            'description': 'none',
+                            'precautions': 'none'
+                        }, role: 'assistant' }, statee: "2" });
             const lastChat = chats[chats.length - 1];
             return res.status(200).json({ chats: lastChat, statee: "2" });
         }
